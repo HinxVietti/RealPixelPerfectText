@@ -1,0 +1,37 @@
+{
+    "name": "GDI Real Pixed Perfect Text",
+    "version": "1.0.0",
+    "description": "draw text to an image. make ui text pixel perfect in unity.",
+    "keywords": [
+        "UI",
+        "Text",
+        "Pixel Perfect",
+        "GDI",
+        "pixel"
+    ],
+    "homepage": "http://www.kmod.net",
+    "bugs": {
+        "url": "http://www.kmod.net/report",
+        "email": "hinx@kmod.net"
+    },
+    "lincense": "MIT",
+    "author": {
+        "name": "HinxVietti",
+        "url": "http://log.kmod.net/hinx",
+        "email": "hinxvietti@gmail.com"
+    },
+    "contributors": [
+        {
+            "name": "HinxVietti",
+            "url": "http://log.kmod.net/hinx",
+            "email": "hinxvietti@gmail.com"
+        }
+    ],
+    "OS": [
+        "WIN"
+    ],
+    "cpu": [
+        "x64"
+    ],
+    "dependencies": {}
+}
