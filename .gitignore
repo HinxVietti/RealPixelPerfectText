@@ -6,3 +6,8 @@
 [Tt]emp
 .vs
 [Pp]rojectSettings
+
+
+# bat files
+*.bat
+*.sh
