@@ -1,6 +1,8 @@
 {
-    "name": "GDI Real Pixed Perfect Text",
+    "name": "com.hinxcor.real-pixel-perfect-text",
     "version": "1.0.0",
+	"displayName":"GDI Real Pixed Perfect Text",
+	"unity":"2017.4",
     "description": "draw text to an image. make ui text pixel perfect in unity.",
     "keywords": [
         "UI",
