@@ -1,9 +1,9 @@
 {
     "name": "com.hinxcor.real-pixel-perfect-text",
-    "version": "1.0.2-preview",
+    "version": "1.0.3-preview",
     "displayName": "GDI Real Pixed Perfect Text",
     "unity": "2017.4",
-    "description": "draw text to an image. make ui text pixel perfect in unity.\nPlease manual refer \"System.Drawing.dll\".\n\n请手动添加 System.Drawing.dll, 用来确保GDI功能正常",
+    "description": "draw text to an image. make ui text pixel perfect in unity.\nPlease manual refer \"System.Drawing.dll\".\n\n已经添加 System.Drawing.dll, 用来确保GDI功能正常",
     "keywords": [
         "UI",
         "Text",

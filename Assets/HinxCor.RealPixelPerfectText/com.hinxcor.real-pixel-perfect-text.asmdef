@@ -1,0 +1,15 @@
+{
+    "name": "com.hinxcor.real-pixel-perfect-text",
+    "references": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
