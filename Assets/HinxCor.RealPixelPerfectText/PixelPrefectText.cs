@@ -14,6 +14,8 @@ using Color = System.Drawing.Color;
 using UnityColor = UnityEngine.Color;
 using System.Runtime.InteropServices;
 
+
+[AddComponentMenu("HinxCor/Pixel Perfect Text")]
 public class PixelPrefectText : RawImage
 {
     static Font defaultFont;
@@ -45,7 +47,7 @@ public class PixelPrefectText : RawImage
     [SerializeField] private string m_fontfile = @"C:\Windows\Fonts\msyh.ttc";
     [SerializeField] float emSize = 12;
     [SerializeField] GraphicsUnit unit = GraphicsUnit.Pixel;
-    [SerializeField] bool fixColor = true;
+    [SerializeField] bool fixColor = false;
     [SerializeField] bool userCustomCurve = false;
     [SerializeField]
     AnimationCurve alphaMapCurve = new AnimationCurve()
@@ -89,6 +91,11 @@ public class PixelPrefectText : RawImage
 
             m_DrawDetailsWith(txtToDraw, defaultFont);
         }
+    }
+
+    public void SetDirty()
+    {
+        m_UpdateDrawingTexture();
     }
 
     private void m_DrawDetailsWith(string txtToDraw, Font font)
@@ -475,3 +482,43 @@ public class PixelPrefectText : RawImage
 
 
 }
+
+#if UNITY_EDITOR
+
+public class CreateObjectMenu
+{
+    [MenuItem("GameObject/UI/Pixel Perfect Text")]
+    private static void AddCom()
+    {
+        Canvas canvas = null;
+        if (Selection.activeObject)
+        {
+            canvas = Selection.activeGameObject.GetComponentInChildren<Canvas>();
+            if (!canvas)
+                canvas = Selection.activeGameObject.GetComponentInParent<Canvas>();
+        }
+        if (!canvas)
+            canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
+        if (!canvas)
+            canvas = CreateAnCanvasItem();
+
+        var go = new GameObject("GDI Text");
+        go.transform.SetParent(canvas.transform);
+        var com = go.AddComponent<PixelPrefectText>();
+        com.Text = "GDI Text";
+        var rect = com.transform as RectTransform;
+        rect.anchoredPosition = Vector2.zero;
+        com.color = UnityColor.black;
+
+        com.SetDirty();
+        //com.SetNativeSize();
+        //com.SetAllDirty();
+    }
+
+    private static Canvas CreateAnCanvasItem()
+    {
+        return new GameObject("Canvas").AddComponent<Canvas>();
+    }
+}
+
+#endif
