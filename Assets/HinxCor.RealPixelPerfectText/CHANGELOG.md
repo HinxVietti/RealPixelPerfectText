@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this package will be documented in this file.
 
+## 1.0.5
+remove plugin
+
 ## 1.0.4 
 Add editor support
 
