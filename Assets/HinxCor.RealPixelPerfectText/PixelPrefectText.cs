@@ -47,7 +47,9 @@ public class PixelPrefectText : RawImage
     [SerializeField] private string m_fontfile = @"C:\Windows\Fonts\msyh.ttc";
     [SerializeField] float emSize = 12;
     [SerializeField] GraphicsUnit unit = GraphicsUnit.Pixel;
+    [SerializeField] System.Drawing.FontStyle style = System.Drawing.FontStyle.Regular;
     [SerializeField] bool fixColor = false;
+    [SerializeField] bool autoSize = true;
     [SerializeField] bool userCustomCurve = false;
     [SerializeField]
     AnimationCurve alphaMapCurve = new AnimationCurve()
@@ -61,6 +63,8 @@ public class PixelPrefectText : RawImage
     private Font m_font;
     private Vector2 m_MesuredSize;
 
+    private bool ignoreDimensionsChange = false;
+
 #if UNITY_EDITOR
 
     protected override void OnValidate()
@@ -70,6 +74,12 @@ public class PixelPrefectText : RawImage
     }
 
 #endif
+
+    protected override void OnRectTransformDimensionsChange()
+    {
+        if (!ignoreDimensionsChange)
+            m_UpdateDrawingTexture();
+    }
 
     private void m_UpdateDrawingTexture()
     {
@@ -101,32 +111,33 @@ public class PixelPrefectText : RawImage
     private void m_DrawDetailsWith(string txtToDraw, Font font)
     {
         Bitmap bmp = new Bitmap(1, 1);
-        using (var graphic = System.Drawing.Graphics.FromImage(bmp))
-        {
-            graphic.TextRenderingHint = TextRenderingHint;
-            var size = graphic.MeasureString(txtToDraw, font);
-            this.m_MesuredSize = new Vector2(size.Width, size.Height);
-        }
-        bmp = new Bitmap((int)m_MesuredSize.x, (int)m_MesuredSize.y);
 
-        string colorstr = brushColor.ToString();
-        var syscolor = Color.FromName(colorstr);
-        var brush = new SolidBrush(syscolor);
+        bmp = ConstructBitmap(txtToDraw, font, bmp);
+        DrawTextToImage(txtToDraw, font, bmp);
 
-        using (var graphic = System.Drawing.Graphics.FromImage(bmp))
-        {
-            graphic.TextRenderingHint = TextRenderingHint;
-            graphic.DrawString(txtToDraw, font, brush, PointF.Empty);
-            graphic.Flush();
-        }
-
-        if (fixColor)
-        {
+        if (fixColor) //像素透明修正
             ClearImageColor(bmp);
-        }
+
+        Texture2D t = CreateTexture(bmp);
+        texture = t;
 
 
+        ignoreDimensionsChange = true;
 
+        var rect = rectTransform;
+        var oripos = rect.anchoredPosition;
+        var orisize = rect.rect.size;
+        SetNativeSize();
+        var newsize = rect.rect.size;
+        var dsize = newsize - orisize;
+        rect.anchoredPosition += new Vector2(dsize.x * rect.pivot.x, -dsize.y * rect.pivot.y);
+
+        ignoreDimensionsChange = false;
+
+    }
+
+    private Texture2D CreateTexture(Bitmap bmp)
+    {
         var ms = new MemoryStream();
         bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
         var pngdat = ms.ToArray();
@@ -138,8 +149,57 @@ public class PixelPrefectText : RawImage
         t.filterMode = FilterMode.Point;
         t.wrapMode = TextureWrapMode.Clamp;
         t.name = "___sys_create_txt_bmp";
-        texture = t;
-        SetNativeSize();
+        return t;
+    }
+
+    private Bitmap ConstructBitmap(string txtToDraw, Font font, Bitmap bmp)
+    {
+        SizeF size = SizeF.Empty;
+        if (autoSize)
+        {
+            using (var graphic = System.Drawing.Graphics.FromImage(bmp))
+            {
+                graphic.TextRenderingHint = TextRenderingHint;
+                size = graphic.MeasureString(txtToDraw, font);
+            }
+            bmp = new Bitmap(Mathf.CeilToInt(size.Width), Mathf.CeilToInt(size.Height));
+            m_MesuredSize = new Vector2(bmp.Width, bmp.Height);
+            return bmp;
+        }
+
+        var width = Mathf.CeilToInt(rectTransform.rect.width);
+
+        if (width < 0)
+            width = Mathf.Abs(width);
+        else if (width == 0)
+            width = 4;//最小4pix
+
+        using (var graphic = System.Drawing.Graphics.FromImage(bmp))
+        {
+            graphic.TextRenderingHint = TextRenderingHint;
+            size = graphic.MeasureString(txtToDraw, font, width);
+            var rect = rectTransform.rect;
+            // var height = size.Height;
+            var height = Mathf.Max(Mathf.Abs(rect.height), size.Height);
+
+            m_MesuredSize = new Vector2(width, Mathf.CeilToInt(height));
+        }
+        bmp = new Bitmap(width, (int)m_MesuredSize.y);
+        return bmp;
+    }
+
+    private void DrawTextToImage(string txtToDraw, Font font, Bitmap bmp)
+    {
+        string colorstr = brushColor.ToString();
+        var syscolor = Color.FromName(colorstr);
+        var brush = new SolidBrush(syscolor);
+
+        using (var graphic = System.Drawing.Graphics.FromImage(bmp))
+        {
+            graphic.TextRenderingHint = TextRenderingHint;
+            graphic.DrawString(txtToDraw, font, brush, new RectangleF(PointF.Empty, bmp.Size));
+            graphic.Flush();
+        }
     }
 
     private void ClearImageColor(Bitmap bmp)
@@ -191,7 +251,7 @@ public class PixelPrefectText : RawImage
         var col = new PrivateFontCollection();
         col.AddFontFile(m_fontfile);
         var fml = col.Families[0];
-        m_font = new Font(fml, emSize, unit);
+        m_font = new Font(fml, emSize, style, unit);
     }
 
 
@@ -356,6 +416,9 @@ public class PixelPrefectText : RawImage
         SerializedProperty m_fix_color;
         SerializedProperty m_userCustomCurve;
         SerializedProperty m_alphaMapCurve;
+        SerializedProperty m_autoSize;
+        SerializedProperty m_style;
+
 
         GUIContent m_text_prop_prefix;
         GUIContent m_color_prop_prefix;
@@ -363,10 +426,9 @@ public class PixelPrefectText : RawImage
         GUIContent m_TextRenderingHint_prefix;
         GUIContent m_fix_color_prefix;
         GUIContent m_useCustomCurve;
-        /*
-         bool userCustomCurve = false;
-             alphaMapCurve
-             */
+        GUIContent m_StyleLabel;
+
+        Func<Enum, bool> checkEnabled;
 
         private void OnEnable()
         {
@@ -380,6 +442,8 @@ public class PixelPrefectText : RawImage
             m_fix_color = serializedObject.FindProperty("fixColor");
             m_userCustomCurve = serializedObject.FindProperty("userCustomCurve");
             m_alphaMapCurve = serializedObject.FindProperty("alphaMapCurve");
+            m_autoSize = serializedObject.FindProperty("autoSize");
+            m_style = serializedObject.FindProperty("style");
 
             m_color_prop_prefix = new GUIContent("Color", "Color for this text");
             m_text_prop_prefix = new GUIContent("Text", "pure string for this text");
@@ -387,8 +451,16 @@ public class PixelPrefectText : RawImage
             m_TextRenderingHint_prefix = new GUIContent("Text Hint");
             m_fix_color_prefix = new GUIContent("Use \"Window LCD\"");
             m_useCustomCurve = new GUIContent("Use Custom Curve");
+            m_StyleLabel = new GUIContent("Style", "font style");
+            checkEnabled = checkEnabledFontStyle;
         }
 
+        private bool checkEnabledFontStyle(Enum style)
+        {
+            //return (System.Drawing.FontStyle)style != System.Drawing.FontStyle.Regular;
+            //这个枚举是否可用
+            return true;
+        }
 
         public override void OnInspectorGUI()
         {
@@ -398,11 +470,21 @@ public class PixelPrefectText : RawImage
             EditorGUILayout.PropertyField(m_text_prop, m_text_prop_prefix);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(m_color_prop, m_color_prop_prefix);
+
+            //EditorGUILayout.PropertyField(m_style);
+            var fcom = serializedObject.targetObject as PixelPrefectText;
+            var ein = fcom.style;
+            var eout = (System.Drawing.FontStyle)EditorGUILayout.EnumFlagsField(m_StyleLabel, fcom.style);
+            if (ein != eout)
+                fcom.SetFontStyle(eout);
+
+
             EditorGUILayout.PropertyField(m_brushColor, m_brushColor_prefix);
             EditorGUILayout.PropertyField(m_TextRenderingHint, m_TextRenderingHint_prefix);
             EditorGUILayout.PropertyField(m_fix_color, m_fix_color_prefix);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(m_FontSize);
+            EditorGUILayout.PropertyField(m_autoSize);
             EditorGUILayout.PropertyField(m_fontSizeUnit);
             EditorGUILayout.PropertyField(m_fontfile);
             EditorGUILayout.Space();
@@ -448,7 +530,6 @@ public class PixelPrefectText : RawImage
                 EditorGUILayout.PropertyField(m_alphaMapCurve);
             }
 
-
             EditorGUILayout.Space();
             if (GUILayout.Button("SetNativeSize"))
             {
@@ -474,9 +555,61 @@ public class PixelPrefectText : RawImage
                 EditorUtility.SetDirty(target);
             }
 
-        }
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
+            if (GUILayout.Button("Draw To PNG"))
+            {
+                string folder = EditorUtility.OpenFolderPanel("Save Text to local Images", "", "");
+                if (!string.IsNullOrEmpty(folder))
+                {
+                    Action<UnityEngine.Object, float> handle = null;
+                    handle = (obj, p) =>
+                    {
+                        if (!obj)
+                            return;
+                        var com = obj as PixelPrefectText;
+                        var tex = com?.texture;
+                        if (tex)
+                        {
+                            string fileName = "_txt_" + com.name + "_" + UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue) + ".png";
+                            string saveName = Path.Combine(folder, fileName);
+                            var dat = (tex as Texture2D).EncodeToPNG();
+                            File.WriteAllBytes(saveName, dat);
+                            EditorUtility.DisplayProgressBar("Draw Text to image", "saving " + fileName, p);
+                        }
+                        else
+                            Debug.LogWarning(com + " has no tex");
+                        //com?.SetNativeSize();
+                    };
+
+                    for (int i = 0; i < serializedObject.targetObjects.Length; i++)
+                    {
+                        try
+                        {
+                            var obj = serializedObject.targetObjects[i];
+                            handle(obj, i * 1f / serializedObject.targetObjects.Length);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError(e.Message);
+                            Debug.LogError(e.StackTrace);
+                        }
+                    }
+                    EditorUtility.ClearProgressBar();
+                }
+            }
+
+
+        }
     }
+
+    private void SetFontStyle(System.Drawing.FontStyle eout)
+    {
+        this.style = eout;
+        SetDirty();
+    }
+
 
 #endif
 

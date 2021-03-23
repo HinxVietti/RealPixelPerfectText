@@ -62,26 +62,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\OriginText.cs" />
     <Compile Include="Assets\Scripts\PixelPrefectTextTest.cs" />
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Purchasing">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -142,9 +124,6 @@
     </Reference>
     <Reference Include="UnityEngine.InputModule">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.LocalizationModule">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.LocalizationModule.dll</HintPath>
@@ -215,12 +194,6 @@
     <Reference Include="UnityEngine.UNETModule">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UmbraModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.UmbraModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UnityConnectModule">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
     </Reference>
@@ -245,21 +218,6 @@
     <Reference Include="UnityEngine.VFXModule">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.VRModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VideoModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.WindModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.XRModule">
-      <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Locator">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/Managed/Unity.Locator.dll</HintPath>
     </Reference>
@@ -283,15 +241,6 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editors/2018.4.31f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.Editor">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing">
       <HintPath>F:/Volume-workbench/unity/Intest/RealPixelPerfectText/Assets/Plugins/System.Drawing.dll</HintPath>
