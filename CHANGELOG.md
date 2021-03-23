@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this package will be documented in this file.
 
+## 1.0.6
+add style
+add autosize
+add draw image
+update size calculate method
+
 ## 1.0.5
 remove plugin
 
