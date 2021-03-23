@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this package will be documented in this file.
 
+## 1.0.7
+update create object root
+
 ## 1.0.6
 add style
 add autosize
