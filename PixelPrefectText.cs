@@ -623,20 +623,33 @@ public class CreateObjectMenu
     [MenuItem("GameObject/UI/Pixel Perfect Text")]
     private static void AddCom()
     {
-        Canvas canvas = null;
+
+        Transform root = null;
+
         if (Selection.activeObject)
         {
-            canvas = Selection.activeGameObject.GetComponentInChildren<Canvas>();
-            if (!canvas)
-                canvas = Selection.activeGameObject.GetComponentInParent<Canvas>();
+            var ret = Selection.activeGameObject.transform as RectTransform;
+            if (ret)
+                root = ret;
         }
-        if (!canvas)
-            canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
-        if (!canvas)
-            canvas = CreateAnCanvasItem();
+        if (!root)
+        {
+            Canvas canvas = null;
+            if (Selection.activeObject)
+            {
+                canvas = Selection.activeGameObject.GetComponentInChildren<Canvas>();
+                if (!canvas)
+                    canvas = Selection.activeGameObject.GetComponentInParent<Canvas>();
+            }
+            if (!canvas)
+                canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
+            if (!canvas)
+                canvas = CreateAnCanvasItem();
+            root = canvas.transform;
+        }
 
         var go = new GameObject("GDI Text");
-        go.transform.SetParent(canvas.transform);
+        go.transform.SetParent(root);
         var com = go.AddComponent<PixelPrefectText>();
         com.Text = "GDI Text";
         var rect = com.transform as RectTransform;
