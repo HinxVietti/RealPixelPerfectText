@@ -3,6 +3,7 @@
     "version": "1.0.7-preview",
     "displayName": "GDI Real Pixed Perfect Text",
     "unity": "2017.4",
+	"category":"Hinx Registry",
     "description": "draw text to an image. make ui text pixel perfect in unity.\nPlease manual refer \"System.Drawing.dll\".\n\n请添加 System.Drawing.dll, 用来确保GDI功能正常",
     "keywords": [
         "UI",
@@ -39,6 +40,6 @@
     "repository": {
       "url": "https://github.com/HinxVietti/RealPixelPerfectText.git",
       "type": "git",
-      "revision": "a4c265254f29222945450e08f6c1c2804d5fd598"
+      "revision": "a4c265254"
     }
 }
