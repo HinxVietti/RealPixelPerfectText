@@ -65,6 +65,8 @@ public class PixelPrefectText : RawImage
 
     private bool ignoreDimensionsChange = false;
 
+    public bool IgnoreDimensionsChange => ignoreDimensionsChange;
+
 #if UNITY_EDITOR
 
     protected override void OnValidate()
@@ -79,6 +81,17 @@ public class PixelPrefectText : RawImage
     {
         if (!ignoreDimensionsChange)
             m_UpdateDrawingTexture();
+    }
+
+    public void EnableIgnoreDimensionChange()
+    {
+        ignoreDimensionsChange = true;
+    }
+
+    public void DisableIgnoreDimensionChange()
+    {
+
+        ignoreDimensionsChange = false;
     }
 
     private void m_UpdateDrawingTexture()
@@ -655,6 +668,8 @@ public class CreateObjectMenu
         var rect = com.transform as RectTransform;
         rect.anchoredPosition = Vector2.zero;
         com.color = UnityColor.black;
+
+        Selection.activeGameObject = com.gameObject;
 
         com.SetDirty();
         //com.SetNativeSize();

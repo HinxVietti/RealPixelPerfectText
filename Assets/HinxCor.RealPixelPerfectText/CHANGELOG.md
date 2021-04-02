@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this package will be documented in this file.
 
+## 1.0.9
+add ignore dimension change option
+
+## 1.0.8
+add edit object and select goes.
+
 ## 1.0.7
 update create object root
 
