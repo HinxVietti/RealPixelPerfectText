@@ -36,10 +36,6 @@
     "cpu": [
         "x64"
     ],
-    "dependencies": {},
-    "repository": {
-      "url": "https://github.com/HinxVietti/RealPixelPerfectText.git",
-      "type": "git",
-      "revision": "a4c265254"
-    }
+    "dependencies": {}
+  
 }
